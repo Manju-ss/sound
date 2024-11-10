@@ -1,5 +1,5 @@
 # Stage 1: Build the Angular application
-FROM node:20-alpine AS build
+FROM node:20-alpine AS builder
 
 # Set working directory in the container
 # RUN mkdir -p /app 
@@ -20,10 +20,10 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the built Angular files from the build stage to NGINX
-COPY --from=build /usr/src/app/dist/audio-sound-app/ /usr/share/nginx/html/
+COPY --from=builder /usr/src/app/dist/audio-sound-app/ /usr/share/nginx/html/
 
 # # Expose port 80 for NGINX
 # EXPOSE 4200
 
 # # Start NGINX
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
