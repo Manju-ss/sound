@@ -1,6 +1,9 @@
 #Download Node Alpine image
-FROM node:alpine As build
+FROM amazonlinux:latest As build
  
+RUN yum update -y && \
+    curl -sL https://rpm.nodesource.com/setup_20.x | bash - && \
+    yum install -y nodejs
 #Setup the working directory
 WORKDIR /usr/src/app
  
@@ -15,10 +18,18 @@ RUN npm install
 COPY . .
  
 #Build Angular application in PROD mode
-RUN npm run build --prod
+RUN ng build --configuration production
  
 #Download NGINX Image
-FROM nginx:alpine
+FROM amazonlinux:latest
  
 #Copy built angular app files to NGINX HTML folder
-COPY --from=build /usr/src/app/dist/audio-sound-app/ /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/audio-sound-app/ /usr/src/app
+
+WORKDIR /usr/src/app
+
+# Expose port 4200
+EXPOSE 4200
+
+# Serve the application on port 4200
+CMD ["serve", "-s", ".", "-l", "4200"]
