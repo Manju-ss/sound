@@ -4,7 +4,7 @@ phases:
   install:
     runtime-versions:
       nodejs: 16 # or specify the version compatible with your Angular project
-      docker: 20 # ensure Docker is available for building images
+      docker: 19 # ensure Docker is available for building images
     commands:
       - echo Installing dependencies...
       - npm install -g @angular/cli # installs Angular CLI globally
