@@ -7,7 +7,7 @@ phases:
       docker: 19 # ensure Docker is available for building images
     commands:
       - echo Installing dependencies...
-      - npm install -g @angular/cli # installs Angular CLI globally
+      - npm install -g @angular/cli@latest # installs Angular CLI globally
       - npm install # installs project dependencies
 
   build:
