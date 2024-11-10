@@ -14,8 +14,8 @@ phases:
 
   build:
     commands:
-      - echo Building the Angular app...
-      - ng build  # builds the Angular project for production
+      # - echo Building the Angular app...
+      # - ng build  # builds the Angular project for production
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 545036754507.dkr.ecr.ap-south-1.amazonaws.com
       - REPOSITORY_URI=545036754507.dkr.ecr.ap-south-1.amazonaws.com/projects/soundsui
