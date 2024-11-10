@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
  
 #Install dependencies
+RUN npm install -g @angular/cli
 RUN npm install
  
 #Copy other files and folder to working directory
