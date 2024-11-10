@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16 # or specify the version compatible with your Angular project
+      docker: 20 # ensure Docker is available for building images
+    commands:
+      - echo Installing dependencies...
+      - npm install -g @angular/cli # installs Angular CLI globally
+      - npm install # installs project dependencies
+
+  build:
+    commands:
+      - echo Building the Angular app...
+      - ng build --prod # builds the Angular project for production
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 545036754507.dkr.ecr.ap-south-1.amazonaws.com
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}') 
+      - echo Building Docker image...
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+
+  post_build:
+    commands:
+      - echo Pushing Docker image to ECR...
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+
+artifacts:
+  files:
+    - '**/*' # include all files if you need them, or specify only essential files if desired

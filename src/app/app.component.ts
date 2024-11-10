@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
-import { HttpClient, HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+import { Component } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { AudiosoundComponent } from './audiosound/audiosound.component';
+
 
 
 @Component({
