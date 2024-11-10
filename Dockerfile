@@ -2,8 +2,8 @@
 FROM node:20-alpine AS build
 
 # Set working directory in the container
-RUN mkdir -p /app 
-WORKDIR /app
+# RUN mkdir -p /app 
+WORKDIR usr/src/app
 
 # Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
