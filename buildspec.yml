@@ -6,8 +6,10 @@ phases:
       nodejs: 20.11.0 # or specify the version compatible with your Angular project
       docker: 19 # ensure Docker is available for building images
     commands:
-      - echo Installing dependencies...
-      - npm install -g @angular/cli@latest # installs Angular CLI globally
+      - echo Cleaning npm cache...
+      - npm cache clean --force
+      - echo Installing Angular CLI...
+      - npm install -g @angular/cli@16  # Use a compatible version for Node.js 20
       - npm install # installs project dependencies
 
   build:
