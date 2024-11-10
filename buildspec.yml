@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16 # or specify the version compatible with your Angular project
+      nodejs: 20.11.0 # or specify the version compatible with your Angular project
       docker: 19 # ensure Docker is available for building images
     commands:
       - echo Installing dependencies...
@@ -13,7 +13,7 @@ phases:
   build:
     commands:
       - echo Building the Angular app...
-      - ng build --prod # builds the Angular project for production
+      - ng build  # builds the Angular project for production
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 545036754507.dkr.ecr.ap-south-1.amazonaws.com
       - REPOSITORY_URI=545036754507.dkr.ecr.ap-south-1.amazonaws.com/projects/soundsui
