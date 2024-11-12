@@ -47,6 +47,7 @@ export class AudiosoundComponent implements OnInit {
   startRecording() {
     this.stopAndStartEvery30min();
     this.audioChunks = [];
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       this.mediaRecorder = new MediaRecorder(stream);
       console.log("Started the recording");
@@ -70,6 +71,7 @@ export class AudiosoundComponent implements OnInit {
 
       };
     });
+  }
   }
   stopAndStartEvery30min() {
     this.recording = true;
@@ -106,7 +108,7 @@ export class AudiosoundComponent implements OnInit {
     // const uniqueFileName = correlationId+'_audio.wav'; // Create a unique filename with the correlation ID
     formData.append('file', audioBlob, currentTime + '_audio.wav');  // Append audio file to FormData
     formData.append('header', options.referrerPolicy);
-    this.httpClient.post('http://13.201.194.81:8080/api/Sound', formData)
+    this.httpClient.post('https://ec2-13-127-165-63.ap-south-1.compute.amazonaws.com/api/Sound', formData)
       .subscribe({
         next: (response: any) => console.log('File sent successfully', response),
         error: (error: any) => console.error('send error', error),
@@ -114,7 +116,7 @@ export class AudiosoundComponent implements OnInit {
       })
   }
   upload() {
-    this.httpClient.get("http://13.201.194.81:8080/upload").subscribe({
+    this.httpClient.get('https://ec2-13-127-165-63.ap-south-1.compute.amazonaws.com/upload').subscribe({
       next: (response: any) => console.log('File uploaded successfully', response),
       error: (error: any) => console.error('Upload error', error),
       complete: () => console.log('Upload complete')
